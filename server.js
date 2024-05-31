@@ -8,10 +8,9 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-//secrets!
+//secrets, dirty secrets!
 const GITHUB_REPO_SEARCH_URL = 'https://api.github.com/search/repositories';
 const GITHUB_USER_SEARCH_URL = 'https://api.github.com/search/users';
-const GITHUB_TOKEN = process.env.NODE_APP_GITHUB_TOKEN;
 
 // helper function to ensure what is in quotation marks shows up in results
 function parseQuery(query) {
@@ -77,6 +76,7 @@ app.get('/api/search/users', async (req, res) => {
         });
 
         const public_repos = userDetailsResponse.data.public_repos;
+        // counting forks, stars, and size
         const total_forks = reposResponse.data.reduce((acc, repo) => acc + repo.forks_count, 0);
         const total_stars = reposResponse.data.reduce((acc, repo) => acc + repo.stargazers_count, 0);
         const total_size = reposResponse.data.reduce((acc, repo) => acc + repo.size, 0);
